@@ -22,7 +22,7 @@
   hacking around.
 
   There's probably lots of dead code in there, but I can't bother to
-  check if the script works.  I just found the code in a "googlesites"
+  check if the script works.  I just found the code in a "googlepages"
   I used to have, and decided to upload it somewhere. Who knows.....
 
 * Who
@@ -52,3 +52,61 @@
 
 * License
   WTFPL
+
+* Original doc (catalan/spanish)
+
+  Intento de emular el comportamiento de ratpoison en windows... algunas ideas de evilwm
+
+Attempt to emulate ratpoison features in windows env... some evilwm features
+
+"programado" en autoit
+
+ratemu.exe
+
+fuente/font en autoit  :  ratpoison.au3
+
+ara per ara necessita el ejecutor, que és com un Win+r o un slickrun.
+c-t + :
+    c ->obre terminal
+    k -> tanca finestra
+    Shift-k-> MATA finestra
+    s ->fa un split molt cutre
+    v ->vsplit molt cutre
+    : ->obre el ejecutor(kogash)
+    o ->maximitza i elimina la barra de titol...
+    u ->restaura el tamany
+    espai -> fa un alt-tab
+    y -> "Always on top" a la finestra actual
+    b -> treu el "always on top" a la finestra actual
+    a -> hora
+    c-t -> envia un c-t
+    n ->minimitza la finestra actual, deixant la següent finestra al focus.  BUG. Despres de la ultima veiem el fons de pantalla i no sortim d'alla
+    - ->Mostra escritori
+    ctrl-g -> finalitza ratemu
+
+    q -> posiciona la finestra a la cantonada adalt esquerra (q)
+    w -> posiciona la finestra a la cantonada adalt dreta (w)
+    z -> posiciona la finestra a la cantonada abaix esquerra (z)
+    x -> posiciona la finestra a la cantonada abaix dreta (x)
+
+    comando intermig Idea de evilwm + evilpoison + idea previa
+    m -> deixa el tema en un estat de "mou finestra"
+
+        Estat "mou finestra"
+         h
+         j
+         k
+         l
+        {ENTER}  Acaba el estat "mou finestra"...
+
+      resumint  :                <C-t>m([hjkl])*<CR>              -->mou $1*20pix
+
+   Dllcall es la hostia...
+
+C-t o:
+
+    $handle = WinGetHandle('','');
+    $res1 = DllCall("user32.dll","int","GetWindowLong","hwnd",$handle,"int",-16)
+    DllCall("user32.dll","int","SetWindowLong","hwnd",$handle,"int",-16,"long",$res1 AND NOT WS_CAPTION)
+    WinSetState('','',@SW_MAXIMIZE)
+    DllCall("user32.dll","int","ShowWindow","hwnd",$handle,"int",@SW_SHOW)
